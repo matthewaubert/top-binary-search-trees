@@ -12,5 +12,22 @@
         "sourceType": "module"
     },
     "rules": {
+        "consistent-return": "off",
+        "import/extensions": ["error", "always"],
+        "no-console": "off",
+        "no-else-return": ["error", {
+            "allowElseIf": true
+        }],
+        "no-param-reassign": ["error", {
+            "props": false
+        }],
+        "no-plusplus": "off",
+        "no-unused-expressions": ["error", {
+            "allowTernary": true
+        }],
+        "no-use-before-define": ["error", {
+            "functions": false,
+            "classes": false
+        }]
     }
 }

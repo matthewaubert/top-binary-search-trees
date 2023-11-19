@@ -13,7 +13,7 @@ Build a balanced binary search tree. Do not use duplicate values because they ma
 
 #### Build the following functions in the `Tree` class/factory:
 
-1. `buildTree()` takes an array of data (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]) and turns it into a balanced binary tree full of `Node` instances appropriately placed (with duplicates removed). It will return the level-0 root node.
+1. `buildTree()` takes an array of data (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]) and turns it into a balanced binary search tree full of `Node` instances appropriately placed (with duplicates removed). It will return the level-0 root node.
 
 1. `insert(value)` inserts a new node with the provided `value`
 
