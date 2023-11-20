@@ -18,9 +18,7 @@
         "no-else-return": ["error", {
             "allowElseIf": true
         }],
-        "no-param-reassign": ["error", {
-            "props": false
-        }],
+        "no-param-reassign": "off",
         "no-plusplus": "off",
         "no-unused-expressions": ["error", {
             "allowTernary": true
