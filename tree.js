@@ -76,7 +76,7 @@ export default class Tree {
     // if value > root.data, delete value from right subtree
     else if (value > root.data) root.right = Tree.#deleteRec(root.right, value);
 
-    // if value equals root.data
+    // base case: if value equals root.data
     if (value === root.data) {
       // if root is leaf node, return null
       if (root.left === null && root.right === null) return null;
@@ -109,6 +109,27 @@ export default class Tree {
 
     return successor;
   }
+
+  // return node with the given value; input: value
+  find(value) {
+    return Tree.#findRec(this.root, value);
+  }
+
+  // recursively traverse down tree nodes to find value
+  // input: tree root, value to find
+  // output: node that matches value
+  static #findRec(root, value) {
+    // edge case: if root is empty (i.e. value not found), throw error
+    if (root === null) throw new Error('value not found');
+
+    // if value < root.data, find value in left subtree
+    if (value < root.data) return Tree.#findRec(root.left, value);
+    // if value > root.data, find value in right subtree
+    else if (value > root.data) return Tree.#findRec(root.right, value);
+
+    // base case: if value equals root.data, return root
+    if (value === root.data) return root;
+  }
 }
 
 // const emptyTree = new Tree(); // tree.root === null
@@ -122,5 +143,7 @@ tree.insert(12);
 // tree.delete(8);
 // tree.delete(7);
 // tree.delete(324);
-tree.delete(342); // Error: value not found
-prettyPrint(tree.root);
+// tree.delete(342); // Error: value not found
+// prettyPrint(tree.root);
+
+console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
