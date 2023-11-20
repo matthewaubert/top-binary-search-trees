@@ -132,29 +132,26 @@ export default class Tree {
   }
 
   levelOrder(cb) {
-    if (cb) {
-      // do stuff
-    }
+    if (this.root === null) return; // edge case: if tree is empty, return
 
-    // enqueue root
-    return Tree.#levelOrderIter(this.root);
-  }
-
-  static #levelOrderIter(root) {
-    const q = [root];
+    const q = [this.root]; // init queue to root node
     const values = [];
 
+    // while there is at least one discovered node
     while (q.length > 0) {
-      // dequeue el from q, push to values array
-      const el = q.shift();
-      values.push(el);
-      // enqueue el children
-      if (el.left) q.push(el.left);
-      if (el.right) q.push(el.right);
+      const current = q.shift(); // dequeue current from q
+      // if cb, run on current; else, push current.data to values array
+      cb ? cb(current) : values.push(current.data);
+      // enqueue current children
+      if (current.left) q.push(current.left);
+      if (current.right) q.push(current.right);
     }
 
-    return values;
+    // if cb, return nothing; else, return values array
+    return cb ? undefined : values;
   }
+
+  static #levelOrderIter(root) {}
 }
 
 // const emptyTree = new Tree(); // tree.root === null
@@ -173,4 +170,5 @@ tree.insert(12);
 
 // console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
 
-console.log(tree.levelOrder()); // [8, 4, 67, 1, 5, 9, 324, 3, 7, 23, 6345, 12]
+// console.log(tree.levelOrder()); // [8, 4, 67, 1, 5, 9, 324, 3, 7, 23, 6345, 12]
+// tree.levelOrder(el => console.log(el)); // prints each node to console
