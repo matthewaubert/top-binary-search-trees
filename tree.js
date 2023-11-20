@@ -181,6 +181,34 @@ export default class Tree {
     // if cb, return nothing; else, return values array
     return values;
   }
+
+  // traverse tree in depth-first in-order and perform operation
+  // input: optional callback - if provided, runs all nodes thru cb
+  // output: undefined if callback provided, array of node values otherwise
+  preOrder(cb) {
+    const values = Tree.#preOrderRec(this.root, cb);
+    return cb ? undefined : values;
+  }
+
+  // recursively traverse tree depth first in-order and perform operation
+  // input: root node, optional callback - if provided, runs all nodes thru cb
+  // output: empty array if callback provided, array of node values otherwise
+  static #preOrderRec(root, cb) {
+    // base case: if root is null, return
+    if (root === null) return [];
+
+    const values = [];
+
+    // visit center node
+    cb ? cb(root) : values.push(root.data);
+    // recursive step: inOrder traverse left subtree
+    values.push(...Tree.#preOrderRec(root.left, cb));
+    // recursive step: inOrder traverse right subtree
+    values.push(...Tree.#preOrderRec(root.right, cb));
+
+    // if cb, return nothing; else, return values array
+    return values;
+  }
 }
 
 // const emptyTree = new Tree(); // tree.root === null
@@ -200,7 +228,10 @@ tree.insert(12);
 // console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
 
 // console.log(tree.levelOrder()); // [8, 4, 67, 1, 5, 9, 324, 3, 7, 23, 6345, 12]
-// tree.levelOrder(el => console.log(el)); // prints each node to console
+// tree.levelOrder(el => console.log(el.data)); // prints each node data to console
 
 // console.log(tree.inOrder()); // [1, 3, 4, 5, 7, 8, 9, 12, 23, 67, 324, 6345]
-// tree.inOrder(el => console.log(el)); // prints each node to console
+// tree.inOrder(el => console.log(el.data)); // prints each node data to console
+
+// console.log(tree.preOrder()); // [8, 4, 1, 3, 5, 7, 67, 9, 23, 12, 324, 6345]
+// tree.preOrder(el => console.log(el.data)); // prints each node data to console
