@@ -130,6 +130,31 @@ export default class Tree {
     // base case: if value equals root.data, return root
     if (value === root.data) return root;
   }
+
+  levelOrder(cb) {
+    if (cb) {
+      // do stuff
+    }
+
+    // enqueue root
+    return Tree.#levelOrderIter(this.root);
+  }
+
+  static #levelOrderIter(root) {
+    const q = [root];
+    const values = [];
+
+    while (q.length > 0) {
+      // dequeue el from q, push to values array
+      const el = q.shift();
+      values.push(el);
+      // enqueue el children
+      if (el.left) q.push(el.left);
+      if (el.right) q.push(el.right);
+    }
+
+    return values;
+  }
 }
 
 // const emptyTree = new Tree(); // tree.root === null
@@ -146,4 +171,6 @@ tree.insert(12);
 // tree.delete(342); // Error: value not found
 // prettyPrint(tree.root);
 
-console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
+// console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
+
+console.log(tree.levelOrder()); // [8, 4, 67, 1, 5, 9, 324, 3, 7, 23, 6345, 12]
