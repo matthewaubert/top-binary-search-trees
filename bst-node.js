@@ -1,5 +1,5 @@
-// create a new node in a binary search tree
-// with a 'data' property, and 'left' and 'right' children
+// create a new node for a binary search tree
+// with a 'data' property, and 'left' and 'right' child nodes
 export default class Node {
   constructor(data = null, left = null, right = null) {
     this.data = data;

@@ -5,32 +5,26 @@ runDriverScript(21);
 
 // create binary search tree with n nodes and test its functionality
 function runDriverScript(n) {
-  // get array of random integers < 100
+  // create new bs tree from array of random integers < 100
   const ints = getRandomInts(n, 0, 100);
-  // create new bs tree from randNums
-  console.log('creating binary search tree...');
+  console.log('creating binary search tree from random integers < 100...');
   const bsTree = new Tree(ints);
-  // prettyPrint(bsTree.root);
-  // confirm tree is balanced
-  confirmBalance(bsTree);
+  confirmBalance(bsTree); // confirm tree is balanced
   // print out all elements in level-, pre-, post-, and in-order
-  printOrders(bsTree);
+  printAllOrders(bsTree);
 
   // unbalance tree by adding several ints > 100
   const largeInts = getRandomInts(3, 100, 500);
-  console.log('adding three integers > 100...');
+  console.log('adding three random integers > 100...');
   largeInts.forEach(int => bsTree.insert(int));
-  // prettyPrint(bsTree.root);
-  // confirm tree is unbalanced
-  confirmBalance(bsTree);
+  confirmBalance(bsTree); // confirm tree is balanced
 
   // balance tree by calling rebalance()
   console.log('rebalancing...');
   bsTree.rebalance();
-  // confirm tree is balanced
-  confirmBalance(bsTree);
+  confirmBalance(bsTree); // confirm tree is balanced
   // print out all elements in level-, pre-, post-, and in-order
-  printOrders(bsTree);
+  printAllOrders(bsTree);
 
   prettyPrint(bsTree.root);
 }
@@ -52,7 +46,8 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-function printOrders(tree) {
+// print all orders (level-, pre-, post-, and in-) of given tree
+function printAllOrders(tree) {
   console.log(
     'level-order:',
     tree.levelOrder(),
@@ -65,6 +60,7 @@ function printOrders(tree) {
   );
 }
 
+// print message stating whether given tree is balanced
 function confirmBalance(tree) {
   console.log(`tree is balanced? ${tree.isBalanced()}`);
 }

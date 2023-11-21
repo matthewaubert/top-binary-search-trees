@@ -1,14 +1,15 @@
 import Node from './bst-node.js';
 import mergeSort from './merge-sort.js';
 
-// create new binary search tree with appropriate functionality
+// create new balanced binary search tree
+// with 'root' property and appropriate functionality
 export default class Tree {
   constructor(array) {
     this.root = Tree.#buildTree(array); // root node of tree
   }
 
-  // create a balanced binary search tree
-  // input: unsorted array with non-unique items
+  // create a new balanced binary search tree
+  // input: unsorted array with non-unique integers
   // output: level-0 root node of BST
   static #buildTree(array) {
     // sort array and remove duplicate nums
@@ -16,13 +17,13 @@ export default class Tree {
     const sortedArray = mergeSort(uniqueArray);
 
     // return level-0 root node
-    return Tree.#buildSubtree(sortedArray, 0, sortedArray.length - 1);
+    return Tree.#buildSubtree(sortedArray);
   }
 
   // recursively create subtrees of a balanced binary search tree
   // input: sorted array, array start index, array end index
-  // output: node of BST
-  static #buildSubtree(array, start, end) {
+  // output: root node of subtree
+  static #buildSubtree(array, start = 0, end = array.length - 1) {
     if (start > end) return null;
     const mid = Math.floor((start + end) / 2);
 
@@ -36,8 +37,8 @@ export default class Tree {
     );
   }
 
-  // insert a new node to tree
-  // input: value to insert, optional tree root - defaults to base root
+  // insert a new node into tree
+  // input: value to insert, tree root (defaults to level-0 root)
   // output: root of modified tree
   insert(value, root = this.root) {
     // base case: if tree root is empty, set root to new node containing value
@@ -45,24 +46,25 @@ export default class Tree {
     // edge case: if root.data equals value, return root
     if (root.data === value) return root;
 
-    // recursive step: if value < root.data, recursively insert value into left subtree
-    if (value < root.data) root.left = this.insert(value, root.left);
-    // recursive step: if value > root.data, recursively insert value into right subtree
-    else root.right = this.insert(value, root.right);
+    // recursive step: if value < root.data, insert value into left subtree
+    // recursive step: if value > root.data, insert value into right subtree
+    value < root.data
+      ? (root.left = this.insert(value, root.left))
+      : (root.right = this.insert(value, root.right));
 
     return root;
   }
 
   // delete from tree node that matches value
-  // input: value to delete, optional tree root - defaults to base root
+  // input: value to delete, tree root (defaults to level-0 root)
   // output: root of modified tree
   delete(value, root = this.root) {
     // edge case: if root is empty (i.e. value not found), throw error
     if (root === null) throw new Error('value not found');
 
-    // if value < root.data, delete value from left subtree
+    // recursive step: if value < root.data, delete value from left subtree
     if (value < root.data) root.left = this.delete(value, root.left);
-    // if value > root.data, delete value from right subtree
+    // recursive step: if value > root.data, delete value from right subtree
     else if (value > root.data) root.right = this.delete(value, root.right);
 
     // base case: if value equals root.data
@@ -100,7 +102,7 @@ export default class Tree {
   }
 
   // return node with the given value
-  // input: value to find, optional tree root - defaults to base root
+  // input: value to find, tree root (defaults to level-0 root)
   // output: node that matches value
   find(value, root = this.root) {
     // edge case: if root is empty (i.e. value not found), throw error
