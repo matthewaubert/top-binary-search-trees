@@ -295,6 +295,7 @@ const tree = new Tree(arr1);
 
 // console.log(Tree.height(tree.root)); // 3
 // console.log(Tree.height(tree.root.left)); // 2
+// console.log(Tree.height(new Node(10))); // Error: node not found
 console.log(tree.depth(tree.root.right.right.right)); // 3
 console.log(tree.depth(tree.root.right)); // 1
 // console.log(tree.depth(new Node(10))); // Error: node not found
