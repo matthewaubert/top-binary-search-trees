@@ -271,13 +271,21 @@ export default class Tree {
   }
 
   // check if tree is balanced
-  // (diff btw heights of left and right subtree of every node is not more than 1)
+  // (balanced: diff btw heights of left and right subtree of every node is not more than 1)
   // output: boolean value
   isBalanced() {
     // check if diff btw heights of subtrees is no more than 1
     return (
       Math.abs(this.height(this.root.left) - this.height(this.root.right)) <= 1
     );
+  }
+
+  // rebalance an unbalanced tree
+  rebalance() {
+    // get ordered array of values from tree
+    const values = this.inOrder();
+    // build new tree and set to root of this tree
+    this.root = Tree.#buildTree(values);
   }
 }
 
@@ -316,8 +324,12 @@ const tree = new Tree(arr1);
 // console.log(tree.depth(tree.root.right)); // 1
 // console.log(tree.depth(new Node(10))); // Error: node not found
 
-console.log(tree.isBalanced()); // true
+// console.log(tree.isBalanced()); // true
 tree.insert(12);
 tree.insert(13);
-// prettyPrint(tree.root);
+prettyPrint(tree.root);
 console.log(tree.isBalanced()); // false
+
+tree.rebalance();
+prettyPrint(tree.root);
+console.log(tree.isBalanced()); // true
