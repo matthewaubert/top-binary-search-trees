@@ -238,30 +238,42 @@ export default class Tree {
     return values;
   }
 
-  // input: node
-  // output: height of input node (num of edges in longest path from input node to leaf node)
-  static height(node) {
+  // find height of node
+  // (height: num of edges in longest path from input node to leaf node)
+  // input: optional node - if provided finds height of input, else finds height of root node
+  // output: height of input node
+  height(node = this.root) {
     // base case & recursive step: find height of left & right subtrees if exist
-    const leftHeight = node.left ? 1 + Tree.height(node.left) : 0;
-    const rightHeight = node.right ? 1 + Tree.height(node.right) : 0;
+    const leftHeight = node.left ? 1 + this.height(node.left) : 0;
+    const rightHeight = node.right ? 1 + this.height(node.right) : 0;
 
     // return greater value of right or left subtree height
     return Math.max(leftHeight, rightHeight);
   }
 
-  // input: node
-  // output: depth of input node (num of edges in longest path from input node to tree's root node)
+  // find depth of node
+  // (depth: num of edges in longest path from input node to tree's root node)
+  // input: node, optional root - if not provided, uses tree instance root
+  // output: depth of input node
   depth(node, root = this.root) {
     // edge case: if root is empty (i.e. value not found), throw error
     if (root === null) throw new Error('node not found');
 
-    // if node.data < root.data, find depth of left subtree
+    // recursive step: if node.data < root.data, find depth of left subtree
     const leftHeight = node.data < root.data ? 1 + this.depth(node, root.left) : 0;
-    // if node.data > root.data, find depth of right subtree
+    // recursive step: if node.data > root.data, find depth of right subtree
     const rightHeight = node.data > root.data ? 1 + this.depth(node, root.right) : 0;
 
-    // base case: if node.data equals root.data, return greater value of right or left subtree depth
+    // base case: else, return greater value of right or left subtree depth
     return Math.max(leftHeight, rightHeight);
+  }
+
+  // check if tree is balanced
+  // (diff btw heights of left and right subtree of every node is not more than 1)
+  // output: boolean value
+  isBalanced(root = this.root) {
+    // check if diff btw heights of subtrees is no more than 1
+    return Math.abs(this.height(root.left) - this.height(root.right)) <= 1
   }
 }
 
@@ -293,9 +305,15 @@ const tree = new Tree(arr1);
 // console.log(tree.postOrder()); // [3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
 // tree.postOrder(el => console.log(el.data)); // prints each node data to console
 
-// console.log(Tree.height(tree.root)); // 3
-// console.log(Tree.height(tree.root.left)); // 2
-// console.log(Tree.height(new Node(10))); // Error: node not found
-console.log(tree.depth(tree.root.right.right.right)); // 3
-console.log(tree.depth(tree.root.right)); // 1
+// console.log(tree.height()); // 3
+// console.log(tree.height(tree.root.left)); // 2
+// console.log(tree.height(new Node(10))); // 0
+// console.log(tree.depth(tree.root.right.right.right)); // 3
+// console.log(tree.depth(tree.root.right)); // 1
 // console.log(tree.depth(new Node(10))); // Error: node not found
+
+// console.log(tree.isBalanced()); // true
+tree.insert(12);
+tree.insert(13);
+// prettyPrint(tree.root);
+console.log(tree.isBalanced()); // false
