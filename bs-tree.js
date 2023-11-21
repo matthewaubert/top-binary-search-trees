@@ -285,7 +285,7 @@ const tree = new Tree(arr1);
 // tree.delete(8);
 // tree.delete(324);
 // tree.delete(342); // Error: value not found
-prettyPrint(tree.root);
+// prettyPrint(tree.root);
 
 // console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
 
@@ -316,4 +316,4 @@ prettyPrint(tree.root);
 
 // tree.rebalance();
 // prettyPrint(tree.root);
-console.log(tree.isBalanced()); // true
+// console.log(tree.isBalanced()); // true
