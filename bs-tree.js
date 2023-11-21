@@ -1,4 +1,4 @@
-import Node from './node.js';
+import Node from './bst-node.js';
 import mergeSort from './merge-sort.js';
 import prettyPrint from './pretty-print.js';
 
@@ -316,4 +316,4 @@ prettyPrint(tree.root);
 
 // tree.rebalance();
 // prettyPrint(tree.root);
-// console.log(tree.isBalanced()); // true
+console.log(tree.isBalanced()); // true
