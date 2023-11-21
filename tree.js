@@ -17,13 +17,13 @@ export default class Tree {
     const sortedArray = mergeSort(uniqueArray);
 
     // return level-0 root node
-    return Tree.#buildBranch(sortedArray, 0, sortedArray.length - 1);
+    return Tree.#buildSubtree(sortedArray, 0, sortedArray.length - 1);
   }
 
-  // recursively create branches of a balanced binary search tree
+  // recursively create subtrees of a balanced binary search tree
   // input: sorted array, array start index, array end index
   // output: node of BST
-  static #buildBranch(array, start, end) {
+  static #buildSubtree(array, start, end) {
     if (start > end) return null;
     const mid = Math.floor((start + end) / 2);
 
@@ -31,9 +31,9 @@ export default class Tree {
       // data = array at mid index
       array[mid],
       // build leftChild recursively
-      Tree.#buildBranch(array, start, mid - 1),
+      Tree.#buildSubtree(array, start, mid - 1),
       // build rightChild recursively
-      Tree.#buildBranch(array, mid + 1, end),
+      Tree.#buildSubtree(array, mid + 1, end),
     );
   }
 
@@ -166,7 +166,7 @@ export default class Tree {
   // input: root node, optional callback - if provided, runs all nodes thru cb
   // output: empty array if callback provided, array of node values otherwise
   static #inOrderRec(root, cb) {
-    // base case: if root is null, return
+    // base case: if root is null, return empty array
     if (root === null) return [];
 
     const values = [];
@@ -194,7 +194,7 @@ export default class Tree {
   // input: root node, optional callback - if provided, runs all nodes thru cb
   // output: empty array if callback provided, array of node values otherwise
   static #preOrderRec(root, cb) {
-    // base case: if root is null, return
+    // base case: if root is null, return empty array
     if (root === null) return [];
 
     const values = [];
@@ -222,7 +222,7 @@ export default class Tree {
   // input: root node, optional callback - if provided, runs all nodes thru cb
   // output: empty array if callback provided, array of node values otherwise
   static #postOrderRec(root, cb) {
-    // base case: if root is null, return
+    // base case: if root is null, return empty array
     if (root === null) return [];
 
     const values = [];
@@ -237,6 +237,17 @@ export default class Tree {
     // if cb, return nothing; else, return values array
     return values;
   }
+
+  // input: node
+  // output: height of input node (num of edges in longest path from input node to leaf node)
+  static height(node) {
+    // base case & recursive step: find height of left & right subtrees if exist
+    const leftHeight = node.left ? 1 + Tree.height(node.left) : 0;
+    const rightHeight = node.right ? 1 + Tree.height(node.right) : 0;
+
+    // return greater value of right subtree height or left subtree height
+    return leftHeight > rightHeight ? leftHeight : rightHeight;
+  }
 }
 
 // const emptyTree = new Tree(); // tree.root === null
@@ -244,14 +255,14 @@ export default class Tree {
 const arr1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr1);
 
-tree.insert(12);
+// tree.insert(12);
 // tree.insert(5); // should not work b/c 5 is already in tree
 
 // tree.delete(8);
-tree.delete(12);
+// tree.delete(12);
 // tree.delete(324);
 // tree.delete(342); // Error: value not found
-// prettyPrint(tree.root);
+prettyPrint(tree.root);
 
 // console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
 
@@ -265,4 +276,6 @@ tree.delete(12);
 // tree.preOrder(el => console.log(el.data)); // prints each node data to console
 
 // console.log(tree.postOrder()); // [3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
-tree.postOrder(el => console.log(el.data)); // prints each node data to console
+// tree.postOrder(el => console.log(el.data)); // prints each node data to console
+
+console.log(Tree.height(tree.root)); // 3
