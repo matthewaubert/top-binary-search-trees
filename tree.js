@@ -37,44 +37,34 @@ export default class Tree {
     );
   }
 
-  // insert a new node to tree; input: node data value
-  insert(value) {
-    this.root = Tree.#insertRec(this.root, value);
-  }
-
-  // recursively traverse down tree nodes to insert value at leaf node
-  // input: tree root, value to insert
+  // insert a new node to tree
+  // input: value to insert, optional tree root - defaults to base root
   // output: root of modified tree
-  static #insertRec(root, value) {
+  insert(value, root = this.root) {
     // base case: if tree root is empty, set root to new node containing value
     if (root === null) return new Node(value);
     // edge case: if root.data equals value, return root
     if (root.data === value) return root;
 
     // recursive step: if value < root.data, recursively insert value into left subtree
-    if (value < root.data) root.left = Tree.#insertRec(root.left, value);
+    if (value < root.data) root.left = this.insert(value, root.left);
     // recursive step: if value > root.data, recursively insert value into right subtree
-    else root.right = Tree.#insertRec(root.right, value);
+    else root.right = this.insert(value, root.right);
 
     return root;
   }
 
-  // delete node that matches value from tree
-  delete(value) {
-    this.root = Tree.#deleteRec(this.root, value);
-  }
-
-  // recursively traverse down tree nodes to find value and delete matching node
-  // input: tree root, value to delete
+  // delete from tree node that matches value
+  // input: value to delete, optional tree root - defaults to base root
   // output: root of modified tree
-  static #deleteRec(root, value) {
+  delete(value, root = this.root) {
     // edge case: if root is empty (i.e. value not found), throw error
     if (root === null) throw new Error('value not found');
 
     // if value < root.data, delete value from left subtree
-    if (value < root.data) root.left = Tree.#deleteRec(root.left, value);
+    if (value < root.data) root.left = this.delete(value, root.left);
     // if value > root.data, delete value from right subtree
-    else if (value > root.data) root.right = Tree.#deleteRec(root.right, value);
+    else if (value > root.data) root.right = this.delete(value, root.right);
 
     // base case: if value equals root.data
     if (value === root.data) {
@@ -110,22 +100,17 @@ export default class Tree {
     return successor;
   }
 
-  // return node with the given value; input: value
-  find(value) {
-    return Tree.#findRec(this.root, value);
-  }
-
-  // recursively traverse down tree nodes to find value
-  // input: tree root, value to find
+  // return node with the given value
+  // input: value to find, optional tree root - defaults to base root
   // output: node that matches value
-  static #findRec(root, value) {
+  find(value, root = this.root) {
     // edge case: if root is empty (i.e. value not found), throw error
     if (root === null) throw new Error('value not found');
 
     // recursive step: if value < root.data, find value in left subtree
-    if (value < root.data) return Tree.#findRec(root.left, value);
+    if (value < root.data) return this.find(value, root.left);
     // recursive step: if value > root.data, find value in right subtree
-    else if (value > root.data) return Tree.#findRec(root.right, value);
+    else if (value > root.data) return this.find(value, root.right);
 
     // base case: if value equals root.data, return root
     if (value === root.data) return root;
@@ -298,10 +283,9 @@ const tree = new Tree(arr1);
 // tree.insert(5); // should not work b/c 5 is already in tree
 
 // tree.delete(8);
-// tree.delete(12);
 // tree.delete(324);
 // tree.delete(342); // Error: value not found
-// prettyPrint(tree.root);
+prettyPrint(tree.root);
 
 // console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
 
@@ -325,11 +309,11 @@ const tree = new Tree(arr1);
 // console.log(tree.depth(new Node(10))); // Error: node not found
 
 // console.log(tree.isBalanced()); // true
-tree.insert(12);
-tree.insert(13);
-prettyPrint(tree.root);
-console.log(tree.isBalanced()); // false
+// tree.insert(12);
+// tree.insert(13);
+// prettyPrint(tree.root);
+// console.log(tree.isBalanced()); // false
 
-tree.rebalance();
-prettyPrint(tree.root);
-console.log(tree.isBalanced()); // true
+// tree.rebalance();
+// prettyPrint(tree.root);
+// console.log(tree.isBalanced()); // true
