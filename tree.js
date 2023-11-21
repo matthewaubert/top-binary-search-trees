@@ -209,7 +209,7 @@ export default class Tree {
     // if cb, return nothing; else, return values array
     return values;
   }
-  
+
   // traverse tree in depth-first post-order and perform operation
   // input: optional callback - if provided, runs all nodes thru cb
   // output: undefined if callback provided, array of node values otherwise
@@ -260,9 +260,11 @@ export default class Tree {
     if (root === null) throw new Error('node not found');
 
     // recursive step: if node.data < root.data, find depth of left subtree
-    const leftHeight = node.data < root.data ? 1 + this.depth(node, root.left) : 0;
+    const leftHeight =
+      node.data < root.data ? 1 + this.depth(node, root.left) : 0;
     // recursive step: if node.data > root.data, find depth of right subtree
-    const rightHeight = node.data > root.data ? 1 + this.depth(node, root.right) : 0;
+    const rightHeight =
+      node.data > root.data ? 1 + this.depth(node, root.right) : 0;
 
     // base case: else, return greater value of right or left subtree depth
     return Math.max(leftHeight, rightHeight);
@@ -271,9 +273,11 @@ export default class Tree {
   // check if tree is balanced
   // (diff btw heights of left and right subtree of every node is not more than 1)
   // output: boolean value
-  isBalanced(root = this.root) {
+  isBalanced() {
     // check if diff btw heights of subtrees is no more than 1
-    return Math.abs(this.height(root.left) - this.height(root.right)) <= 1
+    return (
+      Math.abs(this.height(this.root.left) - this.height(this.root.right)) <= 1
+    );
   }
 }
 
@@ -312,7 +316,7 @@ const tree = new Tree(arr1);
 // console.log(tree.depth(tree.root.right)); // 1
 // console.log(tree.depth(new Node(10))); // Error: node not found
 
-// console.log(tree.isBalanced()); // true
+console.log(tree.isBalanced()); // true
 tree.insert(12);
 tree.insert(13);
 // prettyPrint(tree.root);
