@@ -122,9 +122,9 @@ export default class Tree {
     // edge case: if root is empty (i.e. value not found), throw error
     if (root === null) throw new Error('value not found');
 
-    // if value < root.data, find value in left subtree
+    // recursive step: if value < root.data, find value in left subtree
     if (value < root.data) return Tree.#findRec(root.left, value);
-    // if value > root.data, find value in right subtree
+    // recursive step: if value > root.data, find value in right subtree
     else if (value > root.data) return Tree.#findRec(root.right, value);
 
     // base case: if value equals root.data, return root
@@ -245,8 +245,23 @@ export default class Tree {
     const leftHeight = node.left ? 1 + Tree.height(node.left) : 0;
     const rightHeight = node.right ? 1 + Tree.height(node.right) : 0;
 
-    // return greater value of right subtree height or left subtree height
-    return leftHeight > rightHeight ? leftHeight : rightHeight;
+    // return greater value of right or left subtree height
+    return Math.max(leftHeight, rightHeight);
+  }
+
+  // input: node
+  // output: depth of input node (num of edges in longest path from input node to tree's root node)
+  depth(node, root = this.root) {
+    // edge case: if root is empty (i.e. value not found), throw error
+    if (root === null) throw new Error('node not found');
+
+    // if node.data < root.data, find depth of left subtree
+    const leftHeight = node.data < root.data ? 1 + this.depth(node, root.left) : 0;
+    // if node.data > root.data, find depth of right subtree
+    const rightHeight = node.data > root.data ? 1 + this.depth(node, root.right) : 0;
+
+    // base case: if node.data equals root.data, return greater value of right or left subtree depth
+    return Math.max(leftHeight, rightHeight);
   }
 }
 
@@ -262,7 +277,7 @@ const tree = new Tree(arr1);
 // tree.delete(12);
 // tree.delete(324);
 // tree.delete(342); // Error: value not found
-prettyPrint(tree.root);
+// prettyPrint(tree.root);
 
 // console.log(tree.find(5)); // Node { data: 5, left: null, right: Node { ... } }
 
@@ -278,4 +293,8 @@ prettyPrint(tree.root);
 // console.log(tree.postOrder()); // [3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
 // tree.postOrder(el => console.log(el.data)); // prints each node data to console
 
-console.log(Tree.height(tree.root)); // 3
+// console.log(Tree.height(tree.root)); // 3
+// console.log(Tree.height(tree.root.left)); // 2
+console.log(tree.depth(tree.root.right.right.right)); // 3
+console.log(tree.depth(tree.root.right)); // 1
+// console.log(tree.depth(new Node(10))); // Error: node not found
