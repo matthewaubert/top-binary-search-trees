@@ -20,7 +20,7 @@ export default class Tree {
     return Tree.#buildSubtree(sortedArray);
   }
 
-  // recursively create subtrees of a balanced binary search tree
+  // helper func to recursively create subtrees of a balanced binary search tree
   // input: sorted array, array start index, array end index
   // output: root node of subtree
   static #buildSubtree(array, start = 0, end = array.length - 1) {
@@ -83,9 +83,7 @@ export default class Tree {
     return root;
   }
 
-  // delete and return inorder successor node
-  // input: tree node
-  // output: input node's inorder successor
+  // helper func to delete and return given node's inorder successor node
   static #findDeleteInorderSuccessor(node) {
     let parent = node;
     let successor = node.right;
@@ -101,7 +99,7 @@ export default class Tree {
     return successor;
   }
 
-  // return node with the given value
+  // find and return node with the given value
   // input: value to find, tree root (defaults to level-0 root)
   // output: node that matches value
   find(value, root = this.root) {
@@ -118,7 +116,7 @@ export default class Tree {
   }
 
   // traverse tree in breadth-first level order and perform operation
-  // input: optional callback - if provided, runs all nodes through cb
+  // input: optional callback (if provided, runs all nodes thru cb)
   // output: undefined if callback provided, array of node values otherwise
   levelOrder(cb) {
     if (this.root === null) return; // edge case: if tree is empty, return
@@ -141,15 +139,15 @@ export default class Tree {
   }
 
   // traverse tree in depth-first in-order and perform operation
-  // input: optional callback - if provided, runs all nodes thru cb
+  // input: optional callback (if provided, runs all nodes thru cb)
   // output: undefined if callback provided, array of node values otherwise
   inOrder(cb) {
     const values = Tree.#inOrderRec(this.root, cb);
     return cb ? undefined : values;
   }
 
-  // recursively traverse tree depth-first in-order and perform operation
-  // input: root node, optional callback - if provided, runs all nodes thru cb
+  // helper func to recursively traverse tree in depth-first in-order and perform operation
+  // input: root node, optional callback (if provided, runs all nodes thru cb)
   // output: empty array if callback provided, array of node values otherwise
   static #inOrderRec(root, cb) {
     // base case: if root is null, return empty array
@@ -168,16 +166,16 @@ export default class Tree {
     return values;
   }
 
-  // traverse tree in depth-first in-order and perform operation
-  // input: optional callback - if provided, runs all nodes thru cb
+  // traverse tree in depth-first pre-order and perform operation
+  // input: optional callback (if provided, runs all nodes thru cb)
   // output: undefined if callback provided, array of node values otherwise
   preOrder(cb) {
     const values = Tree.#preOrderRec(this.root, cb);
     return cb ? undefined : values;
   }
 
-  // recursively traverse tree depth-first in-order and perform operation
-  // input: root node, optional callback - if provided, runs all nodes thru cb
+  // helper func to recursively traverse tree in depth-first pre-order and perform operation
+  // input: root node, optional callback (if provided, runs all nodes thru cb)
   // output: empty array if callback provided, array of node values otherwise
   static #preOrderRec(root, cb) {
     // base case: if root is null, return empty array
@@ -197,15 +195,15 @@ export default class Tree {
   }
 
   // traverse tree in depth-first post-order and perform operation
-  // input: optional callback - if provided, runs all nodes thru cb
+  // input: optional callback (if provided, runs all nodes thru cb)
   // output: undefined if callback provided, array of node values otherwise
   postOrder(cb) {
     const values = Tree.#postOrderRec(this.root, cb);
     return cb ? undefined : values;
   }
 
-  // recursively traverse tree depth-first post-order and perform operation
-  // input: root node, optional callback - if provided, runs all nodes thru cb
+  // recursively traverse tree in depth-first post-order and perform operation
+  // input: root node, optional callback (if provided, runs all nodes thru cb)
   // output: empty array if callback provided, array of node values otherwise
   static #postOrderRec(root, cb) {
     // base case: if root is null, return empty array
@@ -224,10 +222,8 @@ export default class Tree {
     return values;
   }
 
-  // find height of node
+  // return height of given node (defaults to instance's level-0 root node)
   // (height: num of edges in longest path from input node to leaf node)
-  // input: optional node - if provided finds height of input, else finds height of root node
-  // output: height of input node
   height(node = this.root) {
     // base case & recursive step: find height of left & right subtrees if exist
     const leftHeight = node.left ? 1 + this.height(node.left) : 0;
@@ -237,10 +233,8 @@ export default class Tree {
     return Math.max(leftHeight, rightHeight);
   }
 
-  // find depth of node
+  // return depth of given node in given tree root (defaults to instance's level-0 root)
   // (depth: num of edges in longest path from input node to tree's root node)
-  // input: node, optional root - if not provided, uses tree instance root
-  // output: depth of input node
   depth(node, root = this.root) {
     // edge case: if root is empty (i.e. value not found), throw error
     if (root === null) throw new Error('node not found');
@@ -252,7 +246,7 @@ export default class Tree {
     const rightHeight =
       node.data > root.data ? 1 + this.depth(node, root.right) : 0;
 
-    // base case: else, return greater value of right or left subtree depth
+    // base case: return greater value of right or left subtree depth
     return Math.max(leftHeight, rightHeight);
   }
 
